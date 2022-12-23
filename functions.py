@@ -1,3 +1,4 @@
+import tkinter as tk
 def isInfix(inp):
     if (inp[0] == '(' or not isOperator(inp[0])) and (inp[-1] == ')' or not isOperator(inp[-1])):
         return True
@@ -55,95 +56,119 @@ def infixToPrefix(inp):
 
     return output[::-1]
 def prefixToInfix(inp):
-    holder1 = ""
-    holder2 = ""
+    a = ""
+    b = ""
     stack = []
 
     inp = inp[::-1]
 
-    for chracter in inp:
-        if chracter not in ['+', '-', '*', '/', '(', ')', '^']:
-            stack.append(chracter)
+    for ch in inp:
+        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+            stack.append(ch)
         else:
-            holder1 = stack.pop()
-            holder2 = stack.pop()
-            holder2 += chracter
-            stack.append(")" + holder2+holder1 + "(")
-            holder1 = ""
-            holder2 = ""
+            a = stack.pop()
+            b = stack.pop()
+            b += ch
+            stack.append(")" + b+a + "(")
+            a = ""
+            b = ""
 
     return stack[0][::-1]
 def postfixToPrefix(inp):
-    holder1 = ""
-    holder2 = ""
+    a = ""
+    b = ""
     stack = []
 
-    for character in inp:
-        if character not in ['+', '-', '*', '/', '(', ')', '^']:
-            stack.append(character)
+    for ch in inp:
+        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+            stack.append(ch)
         else:
-            holder2 = stack.pop()
-            holder1 = stack.pop()
-            holder1 = character+holder1
-            stack.append(holder1+holder2)
-            holder1 = ""
-            holder2 = ""
+            b = stack.pop()
+            a = stack.pop()
+            a = ch+a
+            stack.append(a+b)
+            a = ""
+            b = ""
 
     return stack[0]
 def prefixToPostfix(inp):
-    holder1 = ""
-    holder2 = ""
+    a = ""
+    b = ""
     stack = []
 
     inp = inp[::-1]
 
-    for character in inp:
-        if character not in ['+', '-', '*', '/', '(', ')', '^']:
-            stack.append(character)
+    for ch in inp:
+        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+            stack.append(ch)
         else:
-            holder1 = stack.pop()
-            holder2 = stack.pop()
-            holder2 = holder2+character
-            stack.append(holder1+holder2)
-            holder1 = ""
-            holder2 = ""
+            a = stack.pop()
+            b = stack.pop()
+            b = b+ch
+            stack.append(a+b)
+            a = ""
+            b = ""
 
     return stack[0]
 def infixToPostfix(inp):
     stack = []
     output = ""
 
-    for character in inp:
-        if character not in ['+', '-', '*', '/', '(', ')', '^']:
-            output += character
-        elif character == '(':
-            stack.append(character)
-        elif character == ')':
+    for ch in inp:
+        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+            output += ch
+        elif ch == '(':
+            stack.append(ch)
+        elif ch == ')':
             while stack and stack[-1] != '(':
                 output += stack.pop()
             stack.pop()
-            while stack and stack[-1] != '(' and OpLevel[character] <= OpLevel[stack[-1]]:
+            while stack and stack[-1] != '(' and OpLevel[ch] <= OpLevel[stack[-1]]:
                 output += stack.pop()
-            stack.append(character)
+            stack.append(ch)
 
     while stack:
         output += stack.pop()
 
     return output
 def postfixToInfix(inp):
-    holder1 = ""
-    holder2 = ""
+    a = ""
+    b = ""
     stack = []
 
-    for character in inp:
-        if character not in ['+', '-', '*', '/', '(', ')', '^']:
-            stack.append(character)
+    for ch in inp:
+        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+            stack.append(ch)
         else:
-            holder2 += stack.pop()
-            holder1 += stack.pop()
-            holder1 += character
-            stack.append("(" + holder1+holder2 + ")")
-            holder1 = ""
-            holder2 = ""
+            b += stack.pop()
+            a += stack.pop()
+            holder1 += ch
+            stack.append("(" + a+b + ")")
+            a = ""
+            b = ""
 
     return stack[0]
+def draw_expression_tree(postfix_expression):
+    window = tk.Tk()
+    expTree = tk.Canvas(window, width=400, height=400)
+    expTree.pack()
+    x = 200
+    y = 20
+
+
+    for i in range(len(postfix_expression)):
+        if postfix_expression[i] == "+":
+            # Draw the "+" sign
+            expTree.create_text(x, y, text="+", font=("Arial", 20))
+
+            leftX = x - 60
+            leftY = y + 50
+            rightX = x + 60
+            rightY = y + 50
+
+            expTree.createline(x, y, leftX, leftY) 
+            expTree.createline(x, y, rightX, rightY)
+            x = leftX 
+            y = leftY
+            # drawexpressiontree(postOrderTraversal[:i]) 
+            # drawexpressiontree(postOrderTraversal[i+1:])
