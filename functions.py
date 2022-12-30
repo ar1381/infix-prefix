@@ -91,42 +91,33 @@ def postfixToPrefix(inp):
             b = ""
 
     return stack[0]
-def prefixToPostfix(inp):
-    a = ""
-    b = ""
-    stack = []
-
-    inp = inp[::-1]
-
-    for ch in inp:
-        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
-            stack.append(ch)
-        else:
-            a = stack.pop()
-            b = stack.pop()
-            b = b+ch
-            stack.append(a+b)
-            a = ""
-            b = ""
-
-    return stack[0]
-def infixToPostfix(inp):
+def prefixToPostfix(expr):
+    stack = [] 
+    for char in expr: 
+        if (char.isalpha()): 
+            stack.append(char) 
+        else: 
+            op1 = stack.pop() 
+            op2 = stack.pop() 
+            stack.append(op1 + op2 + char) 
+    return ''.join(stack)
+def infixToPostfix(expression):
     stack = []
     output = ""
 
-    for ch in inp:
-        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
-            output += ch
-        elif ch == '(':
-            stack.append(ch)
-        elif ch == ')':
+    for character in expression:
+        if character not in ['+', '-', '*', '/', '(', ')', '^']:
+            output += character
+        elif character == '(':
+            stack.append(character)
+        elif character == ')':
             while stack and stack[-1] != '(':
                 output += stack.pop()
             stack.pop()
-            while stack and stack[-1] != '(' and OpLevel[ch] <= OpLevel[stack[-1]]:
+        else:
+            while stack and stack[-1] != '(' and OpLevel[character] <= OpLevel[stack[-1]]:
                 output += stack.pop()
-            stack.append(ch)
-
+            stack.append(character)
     while stack:
         output += stack.pop()
 
@@ -137,38 +128,38 @@ def postfixToInfix(inp):
     stack = []
 
     for ch in inp:
-        if ch not in ['+', '-', '*', '/', '(', ')', '^']:
+        if ch not in {'+', '-', '*', '/', '(', ')', '^'}:
             stack.append(ch)
         else:
             b += stack.pop()
             a += stack.pop()
-            holder1 += ch
+            a += ch
             stack.append("(" + a+b + ")")
             a = ""
             b = ""
 
     return stack[0]
-def draw_expression_tree(postfix_expression):
-    window = tk.Tk()
-    expTree = tk.Canvas(window, width=400, height=400)
-    expTree.pack()
-    x = 200
-    y = 20
+# def draw_expression_tree(postfix_expression):
+#     window = tk.Tk()
+#     expTree = tk.Canvas(window, width=400, height=400)
+#     expTree.pack()
+#     x = 200
+#     y = 20
 
 
-    for i in range(len(postfix_expression)):
-        if postfix_expression[i] == "+":
-            # Draw the "+" sign
-            expTree.create_text(x, y, text="+", font=("Arial", 20))
+#     for i in range(len(postfix_expression)):
+#         if postfix_expression[i] == "+":
+#             # Draw the "+" sign
+#             expTree.create_text(x, y, text="+", font=("Arial", 20))
 
-            leftX = x - 60
-            leftY = y + 50
-            rightX = x + 60
-            rightY = y + 50
+#             leftX = x - 60
+#             leftY = y + 50
+#             rightX = x + 60
+#             rightY = y + 50
 
-            expTree.createline(x, y, leftX, leftY) 
-            expTree.createline(x, y, rightX, rightY)
-            x = leftX 
-            y = leftY
-            # drawexpressiontree(postOrderTraversal[:i]) 
-            # drawexpressiontree(postOrderTraversal[i+1:])
+#             expTree.createline(x, y, leftX, leftY) 
+#             expTree.createline(x, y, rightX, rightY)
+#             x = leftX 
+#             y = leftY
+#             # drawexpressiontree(postOrderTraversal[:i]) 
+#             # drawexpressiontree(postOrderTraversal[i+1:])
