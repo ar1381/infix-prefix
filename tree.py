@@ -1,25 +1,6 @@
 import pydot
 import uuid
 #u should install pydot and graphviz
-
-# graph = pydot.Dot(graph_type='graph', strict=True)
-# x= pydot.Node(name = 'a',label = "1", style='filled',fillcolor='green')
-# graph.add_node(x)
-# x= pydot.Node(name = 'b',label = "1", style='filled',fillcolor='green')
-# graph.add_node(x)
-# x= pydot.Node('d', style='filled',fillcolor='green')
-# graph.add_node(x)
-# x= pydot.Node('d', style='filled',fillcolor='green')
-# graph.add_node(x)
-# x= pydot.Node('e', style='filled',fillcolor='green')
-# graph.add_node(x)
-# edge = pydot.Edge('a','b')
-# graph.add_edge(edge)
-# edge = pydot.Edge('a','c')
-# graph.add_edge(edge)
-# edge = pydot.Edge('c','e')
-# graph.add_edge(edge)
-# graph.write_png('10.png')
 class Node(object):
     def __init__(self, val, left=None, right=None):
         self.val = val
